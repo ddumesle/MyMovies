@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             updateUI();
         } else {
             Intent intent = new Intent(this, SplashActivity.class);
-            startActivityForResult(intent, SPLASH);
+            startActivity(intent);
         }
     }
 

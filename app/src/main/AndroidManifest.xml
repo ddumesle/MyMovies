@@ -17,6 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".LoginActivity" android:parentActivityName=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".RegisterActivity" android:parentActivityName=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>

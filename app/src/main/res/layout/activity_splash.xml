@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:background="@drawable/splash_background"
     android:backgroundTint="@color/colorPrimaryDark"
-    android:backgroundTintMode="multiply">
+    android:backgroundTintMode="multiply"
+    android:id="@+id/splash_container">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -35,6 +36,7 @@
                 android:layout_height="@dimen/spacing_xlarge" />
 
             <Button
+                android:id="@+id/login"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginLeft="-4dp"

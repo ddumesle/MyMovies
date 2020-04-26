@@ -8,4 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="EditText.Grey" parent="@style/AppTheme">
+        <item name="colorControlActivated">@color/colorPrimaryMedium</item>
+        <item name="colorControlHighlight">@color/colorPrimaryMedium</item>
+        <item name="colorControlNormal">#111</item>
+    </style>
+
 </resources>

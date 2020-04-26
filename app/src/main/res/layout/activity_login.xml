@@ -29,9 +29,10 @@
                 android:layout_height="@dimen/spacing_xlarge" />
 
             <TextView
+                android:id="@+id/email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text="Email"
                 android:textAlignment="center"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
                 android:textColor="@color/colorPrimaryLight"
@@ -63,6 +64,7 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="-4dp"
@@ -79,6 +81,7 @@
                 android:layout_height="@dimen/spacing_xlarge" />
 
             <Button
+                android:id="@+id/login"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginLeft="-4dp"

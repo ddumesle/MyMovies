@@ -51,10 +51,14 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            Snackbar.make(findViewById(R.id.parent),
+                                    "Authentication Successful.",
+                                    Snackbar.LENGTH_SHORT).show();
+
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                         } else {
-                            Snackbar.make(findViewById(R.id.content),
+                            Snackbar.make(findViewById(R.id.parent),
                                     "Authentication Failed.",
                                     Snackbar.LENGTH_SHORT).show();
                         }

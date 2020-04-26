@@ -82,13 +82,13 @@
                 android:layout_height="@dimen/spacing_xlarge" />
 
             <Button
-                android:id="@+id/login"
+                android:id="@+id/register"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:layout_marginLeft="-4dp"
                 android:layout_marginRight="-4dp"
                 android:background="@drawable/btn_rounded_red"
-                android:text="Login"
+                android:text="Register"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white" />
 

@@ -1,6 +1,7 @@
 package com.example.mymovies.models;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -17,11 +18,21 @@ public class HTTPClient {
     private String url;
     private RequestQueue queue;
 
+    /**
+     * Parameterized constructor.
+     * @param context context of the app
+     * @param url url string to make request
+     */
     public HTTPClient(Context context, String url) {
         this.url = url;
         queue = Volley.newRequestQueue(context.getApplicationContext());
     }
 
+    /**
+     * A function that makes a request to an API and returns
+     * the response to a callback.
+     * @param callback callback to return json to calling function
+     */
     public void getResponse(final VolleyCallback callback) {
         JsonObjectRequest request = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -32,6 +43,7 @@ public class HTTPClient {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Log.d("MYMOVIES", error.getMessage());
                     }
                 });
 

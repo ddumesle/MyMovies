@@ -1,16 +1,23 @@
 package com.example.mymovies.activities;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymovies.models.HTTPClient;
 import com.example.mymovies.R;
+import com.example.mymovies.models.MovieAdapter;
 import com.example.mymovies.models.VolleyCallback;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 
 public class SearchResultsActivity extends AppCompatActivity {
@@ -41,13 +48,30 @@ public class SearchResultsActivity extends AppCompatActivity {
         String keyword = getIntent().getStringExtra("KEYWORD");
         String type = getIntent().getStringExtra("TYPE");
         String year = getIntent().getStringExtra("YEAR");
-        String result = URL + "s=" + keyword;
+        String result = URL + "apikey=" + API_KEY + "&s=" + keyword;
+
+        if (type != null && !type.isEmpty()) {
+            result += "&type=" + type;
+        }
+
+        if (year != null && !year.isEmpty()) {
+            result += "&y=" + year;
+        }
 
         return result;
     }
 
     private void updateUI(JSONObject result) {
-        TextView t = findViewById(R.id.test);
-        t.setText(result.toString());
+
+    }
+
+    private void initComponent(List movies) {
+        RecyclerView recyclerView = findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        //set data and list adapter
+        MovieAdapter adapter = new MovieAdapter(this, movies);
+        recyclerView.setAdapter(adapter);
     }
 }

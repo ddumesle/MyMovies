@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymovies.R;
+import com.example.mymovies.utils.Tools;
+import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,11 +61,11 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ViewHolder view = (ViewHolder) holder;
             final Movie movie = movies.get(position);
 
-            view.title.setText(movie.getTitle());
-            view.year.setText(movie.getYear());
+            view.title.setText(Tools.truncate(movie.getTitle(), 20));
+            view.year.setText("Released: " + movie.getYear());
 
             if (!isEmpty(movie.getPoster())) {
-                //view.poster.setImageResource(movie.getPoster());
+                UrlImageViewHelper.setUrlDrawable(view.poster, movie.getPoster());
             }
         }
     }

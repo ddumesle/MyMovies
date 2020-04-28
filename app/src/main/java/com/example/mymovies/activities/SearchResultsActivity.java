@@ -1,9 +1,7 @@
 package com.example.mymovies.activities;
 
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,11 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymovies.models.HTTPClient;
 import com.example.mymovies.R;
+import com.example.mymovies.models.Movie;
 import com.example.mymovies.models.MovieAdapter;
 import com.example.mymovies.models.VolleyCallback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -39,7 +41,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         client.getResponse(new VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
-                updateUI(result);
+                formatResponse(result);
             }
         });
     }
@@ -61,8 +63,26 @@ public class SearchResultsActivity extends AppCompatActivity {
         return result;
     }
 
-    private void updateUI(JSONObject result) {
+    private void formatResponse(JSONObject result) {
+        List<Movie> movies = new ArrayList<>();
 
+        try {
+            JSONArray arr = result.getJSONArray("Search");
+
+            for (int i = 0 ; i < arr.length(); i++) {
+                JSONObject obj = arr.getJSONObject(i);
+
+                Movie movie = new Movie(obj.getString("imdbID"));
+                movie.setYear(obj.getString("Year"));
+                movie.setTitle(obj.getString("Title"));
+                movie.setPoster(obj.getString("Poster"));
+                movies.add(movie);
+            }
+        } catch (JSONException e) {
+            Log.d("MYMOVIES", e.getMessage());
+        }
+
+        initComponent(movies);
     }
 
     private void initComponent(List movies) {

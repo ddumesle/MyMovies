@@ -1,9 +1,12 @@
 package com.example.mymovies;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONObject;
 
 
 public class SearchResultsActivity extends AppCompatActivity {
@@ -19,6 +22,14 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     private void submitRequest() {
         String query = getQueryString();
+        HTTPClient client = new HTTPClient(this, query);
+
+        client.getResponse(new VolleyCallback() {
+            @Override
+            public void onSuccess(JSONObject result) {
+                updateUI(result);
+            }
+        });
     }
 
     private String getQueryString() {
@@ -27,5 +38,10 @@ public class SearchResultsActivity extends AppCompatActivity {
         String year = getIntent().getStringExtra("YEAR");
 
         return result;
+    }
+
+    private void updateUI(JSONObject result) {
+        TextView t = findViewById(R.id.test);
+        t.setText(result.toString());
     }
 }

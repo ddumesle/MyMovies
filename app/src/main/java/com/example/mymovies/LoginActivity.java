@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailField.getText().toString();
+                String email = emailField.getText().toString().trim();
                 String password = passwordField.getText().toString();
                 login(email, password);
             }

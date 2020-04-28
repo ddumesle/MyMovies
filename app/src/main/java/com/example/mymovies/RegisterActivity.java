@@ -32,7 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailField.getText().toString();
+                String email = emailField.getText().toString().trim();
                 String password = passwordField.getText().toString();
                 register(email, password);
             }
@@ -54,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
                             Snackbar.make(findViewById(R.id.parent),
                                     "Registration Successful.",
                                     Snackbar.LENGTH_SHORT).show();
-
 
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);

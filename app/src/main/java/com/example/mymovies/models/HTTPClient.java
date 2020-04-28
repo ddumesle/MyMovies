@@ -1,4 +1,4 @@
-package com.example.mymovies;
+package com.example.mymovies.models;
 
 import android.content.Context;
 
@@ -31,7 +31,8 @@ public class HTTPClient {
                     }
                 }, new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {}
+                    public void onErrorResponse(VolleyError error) {
+                    }
                 });
 
         queue.add(request);

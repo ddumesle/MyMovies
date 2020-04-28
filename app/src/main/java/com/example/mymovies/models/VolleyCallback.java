@@ -1,4 +1,4 @@
-package com.example.mymovies;
+package com.example.mymovies.models;
 
 import org.json.JSONObject;
 

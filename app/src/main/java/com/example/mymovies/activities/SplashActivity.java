@@ -1,4 +1,4 @@
-package com.example.mymovies;
+package com.example.mymovies.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.mymovies.R;
 
 public class SplashActivity extends AppCompatActivity {
     @Override

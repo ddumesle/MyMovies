@@ -27,9 +27,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         final TextView emailField = findViewById(R.id.email);
         final TextView passwordField = findViewById(R.id.password);
-        final Button register = findViewById(R.id.register);
 
-        register.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.register).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = emailField.getText().toString().trim();

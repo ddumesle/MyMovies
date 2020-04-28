@@ -27,9 +27,8 @@ public class LoginActivity extends AppCompatActivity {
 
         final TextView emailField = findViewById(R.id.email);
         final TextView passwordField = findViewById(R.id.password);
-        final Button login = findViewById(R.id.login);
 
-        login.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = emailField.getText().toString().trim();

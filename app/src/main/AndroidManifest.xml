@@ -19,7 +19,8 @@
         <activity android:name=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".LoginActivity" android:parentActivityName=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".RegisterActivity" android:parentActivityName=".SplashActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".SearchActivity" android:parentActivityName=".MainActivity"/>
+        <activity android:name=".SearchActivity" android:parentActivityName=".MainActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".SearchResultsActivity" android:parentActivityName=".SearchActivity"/>
     </application>
 
 </manifest>

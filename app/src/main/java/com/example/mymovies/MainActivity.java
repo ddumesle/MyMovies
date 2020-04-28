@@ -17,8 +17,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final static int SPLASH = 0;
-
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -45,7 +43,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.add) {
-
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
         } else {
             super.onOptionsItemSelected(item);
         }
@@ -55,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * A function that checks whether a user is logged-in
-     * with valid credentials. I
+     * A function that checks whether a user is currently
+     * authenticated with FirebaseAuth.
      */
     private void checkCredentials() {
         if (currentUser != null) {

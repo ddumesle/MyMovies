@@ -1,5 +1,6 @@
 package com.example.mymovies.models;
 
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,14 @@ import static android.text.TextUtils.isEmpty;
 
 public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
+    private String layout;
     private List<Movie> movies;
     private List<Movie> moviesFull;
     private OnItemClickListener onItemClickListener;
 
-    public MovieAdapter(List<Movie> movies) {
+    public MovieAdapter(List<Movie> movies, String layout) {
         this.movies = movies;
+        this.layout = layout;
         moviesFull = new ArrayList<>(movies);
     }
 
@@ -53,8 +56,16 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        int inflatedLayout;
+
+        if (layout.equals("grid")) {
+            inflatedLayout = R.layout.item_movies_grid;
+        } else {
+            inflatedLayout = R.layout.item_movies_list;
+        }
+
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_movies_list, parent, false);
+                .inflate(inflatedLayout, parent, false);
 
         return new ViewHolder(v);
     }

@@ -10,10 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mymovies.models.Favorites;
 import com.example.mymovies.models.HTTPClient;
 import com.example.mymovies.R;
 import com.example.mymovies.models.Movie;
 import com.example.mymovies.models.MovieAdapter;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,15 +95,34 @@ public class SearchResultsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         //set data and list adapter
-        MovieAdapter adapter = new MovieAdapter(movies);
+        MovieAdapter adapter = new MovieAdapter(movies, "list");
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, Movie movie, String action) {
                 if (action.equals("favorite")) {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    startActivity(intent);
+                    Favorites favoriteDB = new Favorites();
+                    favoriteDB.addToFavorites(movie, new Favorites.FavoriteCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Snackbar.make(findViewById(R.id.parent),
+                                    "Movie added to favorites.",
+                                    Snackbar.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onFailure(String reason) {
+                            Snackbar.make(findViewById(R.id.parent), reason,
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onComplete(QuerySnapshot snapshot){}
+                    });
                 }
 
                 if (action.equals("details")) {

@@ -49,4 +49,12 @@ public class HTTPClient {
 
         queue.add(request);
     }
+
+    /**
+     * A callback function that accesses the JSONObject
+     * from the response of an API call.
+     */
+    public interface VolleyCallback {
+        void onSuccess(JSONObject result);
+    }
 }

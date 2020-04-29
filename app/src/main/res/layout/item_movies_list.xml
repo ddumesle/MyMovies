@@ -16,13 +16,13 @@
 
         <ImageView
             android:id="@+id/poster"
-            android:layout_width="40dp"
+            android:layout_width="35dp"
             android:layout_height="40dp"
             android:layout_marginLeft="@dimen/spacing_large"
             android:layout_marginRight="@dimen/spacing_large"
             android:layout_marginTop="@dimen/spacing_large"
             android:layout_marginBottom="@dimen/spacing_large"
-            android:background="@color/colorPrimaryMedium"/>
+            android:background="@color/colorPrimary"/>
 
         <View
             android:layout_width="@dimen/spacing_medium"
@@ -79,7 +79,7 @@
                 android:layout_height="0dp" />
 
             <ImageButton
-                android:id="@+id/view"
+                android:id="@+id/details"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginRight="@dimen/spacing_middle"

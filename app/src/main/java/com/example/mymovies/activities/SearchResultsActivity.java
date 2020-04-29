@@ -1,7 +1,9 @@
 package com.example.mymovies.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +14,6 @@ import com.example.mymovies.models.HTTPClient;
 import com.example.mymovies.R;
 import com.example.mymovies.models.Movie;
 import com.example.mymovies.models.MovieAdapter;
-import com.example.mymovies.models.VolleyCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +39,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         String query = getQueryString();
         HTTPClient client = new HTTPClient(this, query);
 
-        client.getResponse(new VolleyCallback() {
+        client.getResponse(new HTTPClient.VolleyCallback() {
             @Override
             public void onSuccess(JSONObject result) {
                 formatResponse(result);
@@ -91,7 +92,21 @@ public class SearchResultsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         //set data and list adapter
-        MovieAdapter adapter = new MovieAdapter(this, movies);
+        MovieAdapter adapter = new MovieAdapter(movies);
         recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, Movie movie, String action) {
+                if (action.equals("favorite")) {
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+
+                if (action.equals("details")) {
+                    // Intent to movie detail
+                }
+            }
+        });
     }
 }

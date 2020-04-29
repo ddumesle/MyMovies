@@ -7,9 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mymovies.R;
@@ -23,13 +25,12 @@ import static android.text.TextUtils.isEmpty;
 
 public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
-    private Context context;
     private List<Movie> movies;
     private List<Movie> moviesFull;
+    private OnItemClickListener onItemClickListener;
 
-    public MovieAdapter(Context context, List<Movie> movies) {
+    public MovieAdapter(List<Movie> movies) {
         this.movies = movies;
-        this.context = context;
         moviesFull = new ArrayList<>(movies);
     }
 
@@ -38,15 +39,20 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView title;
         TextView year;
         ImageView poster;
+        ImageButton details;
+        ImageButton favorite;
 
         ViewHolder(View v) {
             super(v);
             title = v.findViewById(R.id.title);
             year = v.findViewById(R.id.year);
             poster = v.findViewById(R.id.poster);
+            details = v.findViewById(R.id.details);
+            favorite = v.findViewById(R.id.favorite);
         }
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
@@ -56,7 +62,7 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof ViewHolder) {
             ViewHolder view = (ViewHolder) holder;
             final Movie movie = movies.get(position);
@@ -67,6 +73,24 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (!isEmpty(movie.getPoster())) {
                 UrlImageViewHelper.setUrlDrawable(view.poster, movie.getPoster());
             }
+
+            view.favorite.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, movie, "favorite");
+                    }
+                }
+            });
+
+            view.details.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, movie, "details");
+                    }
+                }
+            });
         }
     }
 
@@ -76,11 +100,11 @@ public class MovieAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, Movie obj, int pos);
+        void onItemClick(View view, Movie obj, String action);
     }
 
-    public interface OnMoreButtonClickListener {
-        void onItemClick(View view, Movie obj, MenuItem item);
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override

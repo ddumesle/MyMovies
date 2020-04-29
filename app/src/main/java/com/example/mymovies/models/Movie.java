@@ -6,7 +6,6 @@ public class Movie {
     private String title;
     private String poster;
     private String imdbID;
-    private String documentID;
 
     public Movie(String imdbID) {
         this.imdbID = imdbID;
@@ -24,10 +23,6 @@ public class Movie {
         this.poster = poster;
     }
 
-    public void setDocumentID(String documentID) {
-        this.documentID = documentID;
-    }
-
     public String getYear() {
         return year;
     }
@@ -42,9 +37,5 @@ public class Movie {
 
     public String getImdbID() {
         return imdbID;
-    }
-
-    public String getDocumentID() {
-        return documentID;
     }
 }

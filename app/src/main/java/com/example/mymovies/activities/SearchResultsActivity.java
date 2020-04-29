@@ -7,6 +7,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +15,7 @@ import com.example.mymovies.models.Favorites;
 import com.example.mymovies.models.HTTPClient;
 import com.example.mymovies.R;
 import com.example.mymovies.models.Movie;
-import com.example.mymovies.models.MovieAdapter;
+import com.example.mymovies.models.MovieListAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -35,7 +36,19 @@ public class SearchResultsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_results);
+        initToolbar();
         submitRequest();
+    }
+
+    private void initToolbar() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Search Results");
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
     }
 
     private void submitRequest() {
@@ -95,21 +108,17 @@ public class SearchResultsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         //set data and list adapter
-        MovieAdapter adapter = new MovieAdapter(movies, "list");
+        MovieListAdapter adapter = new MovieListAdapter(movies);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new MovieAdapter.OnItemClickListener() {
+        adapter.setOnItemClickListener(new MovieListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, Movie movie, String action) {
+            public void onItemClick(View view, final Movie movie, String action) {
                 if (action.equals("favorite")) {
                     Favorites favoriteDB = new Favorites();
                     favoriteDB.addToFavorites(movie, new Favorites.FavoriteCallback() {
                         @Override
                         public void onSuccess() {
-                            Snackbar.make(findViewById(R.id.parent),
-                                    "Movie added to favorites.",
-                                    Snackbar.LENGTH_SHORT).show();
-
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                         }

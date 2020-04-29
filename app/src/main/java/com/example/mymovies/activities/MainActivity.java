@@ -3,8 +3,6 @@ package com.example.mymovies.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,14 +10,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.GridView;
 
 import com.example.mymovies.R;
 import com.example.mymovies.models.Favorites;
 import com.example.mymovies.models.Movie;
-import com.example.mymovies.models.MovieAdapter;
+import com.example.mymovies.models.MovieGridAdapter;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,10 +25,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.text.TextUtils.isEmpty;
-
 public class MainActivity extends AppCompatActivity {
 
+    private Favorites favorites;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseUser currentUser = mAuth.getCurrentUser();
 
@@ -62,13 +57,22 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.add) {
-            Intent intent = new Intent(this, SearchActivity.class);
-            startActivity(intent);
-        } else {
-            super.onOptionsItemSelected(item);
-        }
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.search:
+                intent = new Intent(this, SearchActivity.class);
+                startActivity(intent);
+                return true;
 
+            case R.id.logout:
+                mAuth.signOut();
+                intent = new Intent(this, SplashActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                super.onOptionsItemSelected(item);
+        }
         return true;
     }
 
@@ -79,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void checkCredentials() {
         if (currentUser != null) {
+            favorites = new Favorites();
             updateUI();
         } else {
             Intent intent = new Intent(this, SplashActivity.class);
@@ -87,11 +92,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        final LinearLayout progress = findViewById(R.id.progress);
-        progress.setVisibility(View.VISIBLE);
-
-        Favorites favoritesDB = new Favorites();
-        favoritesDB.getFavorites(new Favorites.FavoriteCallback() {
+        favorites.getFavorites(new Favorites.FavoriteCallback() {
             @Override
             public void onFailure(String reason) {
                 Snackbar.make(findViewById(R.id.parent), reason,
@@ -111,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 initComponent(movies);
-                progress.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -121,12 +121,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initComponent(List movies) {
-        RecyclerView recyclerView = findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setHasFixedSize(true);
+        MovieGridAdapter adapter = new MovieGridAdapter(movies);
+        GridView gridView = findViewById(R.id.gridview);
+        gridView.setAdapter(adapter);
 
-        //set data and list adapter
-        MovieAdapter adapter = new MovieAdapter(movies, "grid");
-        recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new MovieGridAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, final Movie movie) {
+                favorites.deleteFavorite(movie.getImdbID(), new Favorites.FavoriteCallback() {
+                    @Override
+                    public void onSuccess() {
+                        Snackbar.make(findViewById(R.id.parent),
+                                "Deleted \"" + movie.getTitle() + "\" from favorites.",
+                                Snackbar.LENGTH_SHORT).show();
+                        updateUI();
+                    }
+
+                    @Override
+                    public void onFailure(String reason) {
+                        Snackbar.make(findViewById(R.id.parent), reason,
+                                Snackbar.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onComplete(QuerySnapshot snapshot) {}
+                });
+            }
+        });
     }
 }

@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (action.equals("detail")) {
                     Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
-                    intent.putExtra("TITLE", movie.getTitle());
+                    intent.putExtra("ID", movie.getImdbID());
                     startActivity(intent);
                 }
             }

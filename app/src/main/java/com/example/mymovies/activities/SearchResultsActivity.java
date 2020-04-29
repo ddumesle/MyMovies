@@ -181,6 +181,7 @@ public class SearchResultsActivity extends AppCompatActivity {
 
                 if (action.equals("details")) {
                     Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
+                    intent.putExtra("TITLE", movie.getTitle());
                     startActivity(intent);
                 }
             }

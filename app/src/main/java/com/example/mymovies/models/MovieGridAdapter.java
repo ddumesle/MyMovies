@@ -50,11 +50,20 @@ public class MovieGridAdapter extends BaseAdapter {
             UrlImageViewHelper.setUrlDrawable(poster, movie.getPoster());
         }
 
+        poster.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(v, movie, "detail");
+                }
+            }
+        });
+
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(v, movie);
+                    onItemClickListener.onItemClick(v, movie, "delete");
                 }
             }
         });
@@ -78,7 +87,7 @@ public class MovieGridAdapter extends BaseAdapter {
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View view, Movie obj);
+        void onItemClick(View view, Movie obj, String action);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

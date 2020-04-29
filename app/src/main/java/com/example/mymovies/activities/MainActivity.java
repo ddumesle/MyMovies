@@ -127,25 +127,33 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.setOnItemClickListener(new MovieGridAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, final Movie movie) {
-                favorites.deleteFavorite(movie.getImdbID(), new Favorites.FavoriteCallback() {
-                    @Override
-                    public void onSuccess() {
-                        Snackbar.make(findViewById(R.id.parent),
-                                "Deleted \"" + movie.getTitle() + "\" from favorites.",
-                                Snackbar.LENGTH_SHORT).show();
-                        updateUI();
-                    }
+            public void onItemClick(View view, final Movie movie, String action) {
+                if (action.equals("delete")) {
+                    favorites.deleteFavorite(movie.getImdbID(), new Favorites.FavoriteCallback() {
+                        @Override
+                        public void onSuccess() {
+                            Snackbar.make(findViewById(R.id.parent),
+                                    "Deleted \"" + movie.getTitle() + "\" from favorites.",
+                                    Snackbar.LENGTH_SHORT).show();
+                            updateUI();
+                        }
 
-                    @Override
-                    public void onFailure(String reason) {
-                        Snackbar.make(findViewById(R.id.parent), reason,
-                                Snackbar.LENGTH_SHORT).show();
-                    }
+                        @Override
+                        public void onFailure(String reason) {
+                            Snackbar.make(findViewById(R.id.parent), reason,
+                                    Snackbar.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public void onComplete(QuerySnapshot snapshot) {}
-                });
+                        @Override
+                        public void onComplete(QuerySnapshot snapshot) {}
+                    });
+                }
+
+                if (action.equals("detail")) {
+                    Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
+                    intent.putExtra("TITLE", movie.getTitle());
+                    startActivity(intent);
+                }
             }
         });
     }

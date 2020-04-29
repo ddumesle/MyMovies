@@ -2,11 +2,16 @@ package com.example.mymovies.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +34,8 @@ import java.util.List;
 
 public class SearchResultsActivity extends AppCompatActivity {
 
+    private MovieListAdapter adapter;
+
     private final static String API_KEY = "9209cdbe";
     private final static String URL = "https://omdbapi.com/?";
 
@@ -49,6 +56,46 @@ public class SearchResultsActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_results, menu);
+
+        // Filter items from the toolbar
+        MenuItem searchItem = menu.findItem(R.id.filter);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.home:
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
+
+            default:
+                super.onOptionsItemSelected(item);
+        }
+        return true;
     }
 
     private void submitRequest() {
@@ -95,9 +142,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                 movie.setPoster(obj.getString("Poster"));
                 movies.add(movie);
             }
-        } catch (JSONException e) {
-            Log.d("MYMOVIES", e.getMessage());
-        }
+        } catch (JSONException e) {}
 
         initComponent(movies);
     }
@@ -108,7 +153,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
 
         //set data and list adapter
-        MovieListAdapter adapter = new MovieListAdapter(movies);
+        adapter = new MovieListAdapter(movies);
         recyclerView.setAdapter(adapter);
 
         adapter.setOnItemClickListener(new MovieListAdapter.OnItemClickListener() {
@@ -135,7 +180,8 @@ public class SearchResultsActivity extends AppCompatActivity {
                 }
 
                 if (action.equals("details")) {
-                    // Intent to movie detail
+                    Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
+                    startActivity(intent);
                 }
             }
         });

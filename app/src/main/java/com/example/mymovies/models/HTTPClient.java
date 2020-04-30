@@ -12,7 +12,10 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
 
-
+/**
+ * A class that handles the request made to the
+ * REST API via HTTP.
+ */
 public class HTTPClient {
 
     private String url;

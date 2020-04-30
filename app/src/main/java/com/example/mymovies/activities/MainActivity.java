@@ -25,6 +25,10 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class the manages the overall flow of the
+ * entire application.
+ */
 public class MainActivity extends AppCompatActivity {
 
     private Favorites favorites;
@@ -76,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     /**
      * A function that checks whether a user is currently
      * authenticated with FirebaseAuth.
@@ -91,6 +94,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * A function that updates the view with information
+     * that is saved from the user's favorites in Firebase.
+     */
     private void updateUI() {
         favorites.getFavorites(new Favorites.FavoriteCallback() {
             @Override
@@ -120,14 +127,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * A function that initializes the movie adapter to bind
+     * the view and the movie model.
+     * @param movies
+     */
     private void initComponent(List movies) {
         MovieGridAdapter adapter = new MovieGridAdapter(movies);
         GridView gridView = findViewById(R.id.gridview);
         gridView.setAdapter(adapter);
 
+        // Set a listener for each movie that is returned from the DB
         adapter.setOnItemClickListener(new MovieGridAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, final Movie movie, String action) {
+
+                // If user clicks the trash icon, delete movie from DB
                 if (action.equals("delete")) {
                     favorites.deleteFavorite(movie.getImdbID(), new Favorites.FavoriteCallback() {
                         @Override
@@ -149,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
 
+                // If user clicks the movie poster, start a new activity to show details
                 if (action.equals("detail")) {
                     Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
                     intent.putExtra("ID", movie.getImdbID());

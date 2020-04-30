@@ -2,7 +2,6 @@ package com.example.mymovies.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,7 +27,13 @@ import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * A class that manages the the movie detail flow and
+ * displays information about a single movie.
+ */
 public class MovieDetailActivity extends AppCompatActivity {
+
+    private Toolbar toolbar;
 
     private final static String API_KEY = "9209cdbe";
     private final static String URL = "https://omdbapi.com/?";
@@ -42,8 +47,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     private void initToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Movie Detail");
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) {
@@ -83,6 +87,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * A function that submits a new request for a single
+     * movie from the API.
+     */
     private void submitRequest() {
         String query = getQueryString();
         HTTPClient client = new HTTPClient(this, query);
@@ -95,30 +103,43 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * A function that builds the query string with parameters
+     * to be used as the endpoint for the API request.
+     * @return API endpoint
+     */
     private String getQueryString() {
         String id = getIntent().getStringExtra("ID");
         return URL + "apikey=" + API_KEY + "&i=" + id;
     }
 
+    /**
+     * A function that updates the view with information that
+     * is returned from the API.
+     * @param movie JSONObject that is returned from the API
+     */
     private void updateUI(final JSONObject movie) {
         TextView genre = findViewById(R.id.genre);
         TextView plot = findViewById(R.id.plot);
-        TextView title = findViewById(R.id.title);
+        TextView rated = findViewById(R.id.rated);
         TextView rating = findViewById(R.id.rating);
         ImageView poster = findViewById(R.id.poster);
         ImageButton favoriteButton = findViewById(R.id.favorite);
 
         try {
+            toolbar.setTitle(Tools.truncate(movie.getString("Title"), 23));
+            plot.setText(movie.getString("Plot"));
+            rated.setText("Rated " + movie.getString("Rated"));
+            rating.setText(movie.getString("imdbRating"));
+            genre.setText(Tools.truncate(movie.getString("Genre"), 35));
+
             if (movie.getString("Poster") != "") {
                 UrlImageViewHelper.setUrlDrawable(poster, movie.getString("Poster"));
             }
 
-            plot.setText(movie.getString("Plot"));
-            genre.setText(movie.getString("Genre"));
-            rating.setText(movie.getString("imdbRating"));
-            title.setText(Tools.truncate(movie.getString("Title"), 20));
         } catch (JSONException e) {}
 
+        // If user clicks hear icon, save the movie to the user's favorites.
         favoriteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +148,11 @@ public class MovieDetailActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * A function that saves a movie to the user's favorites
+     * on Firebase.
+     * @param obj movie object to be saved
+     */
     private void addMovieToFavorites(JSONObject obj) {
         try {
             final Movie movie = new Movie(obj.getString("imdbID"));

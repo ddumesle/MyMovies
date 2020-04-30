@@ -14,6 +14,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * A class that manages the loading, adding,
+ * and deleting of user favorites from the
+ * Firestore database.
+ */
 public class Favorites {
 
     private CollectionReference col;
@@ -29,14 +34,20 @@ public class Favorites {
         col = db.collection("/users/" + UID + "/favorites");
     }
 
+    /**
+     * A function that adds a new movie to the user's
+     * favorites.
+     * @param movie movie object
+     * @param callback callback to notify of DB response
+     */
     public void addToFavorites(Movie movie, final FavoriteCallback callback) {
-        // Create a new user with a first and last name
+        // Create a new favorite using the movie object
         Map<String, Object> favorite = new HashMap<>();
         favorite.put(KEY_YEAR, movie.getYear());
         favorite.put(KEY_TITLE, movie.getTitle());
         favorite.put(KEY_POSTER, movie.getPoster());
 
-        // Add a new collection with a generated ID
+        // Add a new favorite with a generated ID
         col.document(movie.getImdbID()).set(favorite)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -51,6 +62,11 @@ public class Favorites {
                 });
     }
 
+    /**
+     * A function that returns the complete list of a
+     * user's favorite movies.
+     * @param callback callback to notify of DB response
+     */
     public void getFavorites(final FavoriteCallback callback) {
         col.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -65,6 +81,12 @@ public class Favorites {
                 });
     }
 
+    /**
+     * A function that deletes a movie from the user's
+     * favorites
+     * @param id the document id or the movie
+     * @param callback callback to notify of DB response
+     */
     public void deleteFavorite(String id, final FavoriteCallback callback) {
         col.document(id).delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -80,6 +102,10 @@ public class Favorites {
         });
     }
 
+    /**
+     * An interface for the callbacks to return a
+     * response to the calling function.
+     */
     public interface FavoriteCallback {
         void onSuccess();
         void onFailure(String reason);

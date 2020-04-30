@@ -32,7 +32,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * A class the manages the results from a user's query. It
+ * displays a list of movies that matches a user's request to
+ * the API.
+ */
 public class SearchResultsActivity extends AppCompatActivity {
 
     private MovieListAdapter adapter;
@@ -64,7 +68,7 @@ public class SearchResultsActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_results, menu);
 
-        // Filter items from the toolbar
+        // Filter movies from the toolbar
         MenuItem searchItem = menu.findItem(R.id.filter);
         SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
@@ -106,6 +110,10 @@ public class SearchResultsActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * A function that submits a new request for a list of
+     * movies from the API.
+     */
     private void submitRequest() {
         String query = getQueryString();
         HTTPClient client = new HTTPClient(this, query);
@@ -118,6 +126,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * A function that builds the query string with parameters
+     * to be used as the endpoint for the API request.
+     * @return API endpoint
+     */
     private String getQueryString() {
         String keyword = getIntent().getStringExtra("KEYWORD");
         String type = getIntent().getStringExtra("TYPE");
@@ -135,6 +148,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         return result;
     }
 
+    /**
+     * A function that builds a list of movies from the
+     * the response of the API to used in the adapter.
+     * @param result API response
+     */
     private void formatResponse(JSONObject result) {
         List<Movie> movies = new ArrayList<>();
 
@@ -155,6 +173,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         initComponent(movies);
     }
 
+    /**
+     * A function that updates the view with information
+     * that is formatted from the API's response.
+     * @param movies a list of movie objects
+     */
     private void initComponent(List movies) {
         RecyclerView recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -164,9 +187,12 @@ public class SearchResultsActivity extends AppCompatActivity {
         adapter = new MovieListAdapter(movies);
         recyclerView.setAdapter(adapter);
 
+        // Set a listener for each movie that is returned from the API
         adapter.setOnItemClickListener(new MovieListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, final Movie movie, String action) {
+
+                // If user clicks the heart icon, save the movie to the user's favorites
                 if (action.equals("favorite")) {
                     Favorites favoriteDB = new Favorites();
                     favoriteDB.addToFavorites(movie, new Favorites.FavoriteCallback() {
@@ -187,6 +213,7 @@ public class SearchResultsActivity extends AppCompatActivity {
                     });
                 }
 
+                // If the user clicks the chevron icon, start a new activity to show details
                 if (action.equals("details")) {
                     Intent intent = new Intent(getApplicationContext(), MovieDetailActivity.class);
                     intent.putExtra("ID", movie.getImdbID());

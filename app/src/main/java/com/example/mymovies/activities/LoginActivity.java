@@ -16,6 +16,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * A class that manages the login flow if the user
+ * is currently logged out.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();

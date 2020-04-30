@@ -16,6 +16,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mymovies.R;
 
+/**
+ * A class the manages the search flow and enables user
+ * to search for a movie by keyword, movie type, and
+ * movie release year.
+ */
 public class SearchActivity extends AppCompatActivity {
 
     private RadioGroup type;

@@ -21,12 +21,20 @@ import java.util.List;
 
 import static android.text.TextUtils.isEmpty;
 
+/**
+ * A class that serves as a bridge between the view
+ * and the information from am arbitrary source.
+ */
 public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements Filterable {
 
     private List<Movie> movies;
     private List<Movie> moviesFull;
     private OnItemClickListener onItemClickListener;
 
+    /**
+     * Parameterized constructor.
+     * @param movies list of movie objects
+     */
     public MovieListAdapter(List<Movie> movies) {
         this.movies = movies;
         moviesFull = new ArrayList<>(movies);
@@ -63,15 +71,20 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         if (holder instanceof ViewHolder) {
             ViewHolder view = (ViewHolder) holder;
+
+            // Get the current movie
             final Movie movie = movies.get(position);
 
+            // Update the view with the movie's title and release year
             view.title.setText(Tools.truncate(movie.getTitle(), 20));
             view.year.setText("Released: " + movie.getYear());
 
+            // Setup a async task to retrieve the movie's poster if it exists
             if (!isEmpty(movie.getPoster())) {
                 UrlImageViewHelper.setUrlDrawable(view.poster, movie.getPoster());
             }
 
+            // Listen for clicks on the heart icon
             view.favorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -81,6 +94,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
+            // Listen for clicks on the chevron icon
             view.details.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -92,17 +106,26 @@ public class MovieListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return movies.size();
-    }
-
+    /**
+     * An interface to enable setting a listener from an
+     * outside method.
+     */
     public interface OnItemClickListener {
         void onItemClick(View view, Movie obj, String action);
     }
 
+    /**
+     * A function sets a listener received from the calling
+     * function.
+     * @param onItemClickListener menu item click listener
+     */
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    @Override
+    public int getItemCount() {
+        return movies.size();
     }
 
     @Override

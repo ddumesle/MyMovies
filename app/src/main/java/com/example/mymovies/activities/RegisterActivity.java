@@ -16,6 +16,10 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+/**
+ * A class that manages the register flow if the user
+ * currently does not have an account on Firebase.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();

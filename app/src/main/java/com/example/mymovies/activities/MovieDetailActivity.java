@@ -73,6 +73,10 @@ public class MovieDetailActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             default:
                 super.onOptionsItemSelected(item);
         }

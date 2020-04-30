@@ -86,15 +86,22 @@ public class SearchResultsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent;
+        super.onOptionsItemSelected(item);
+
         switch (item.getItemId()) {
             case R.id.home:
                 intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 return true;
 
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
             default:
                 super.onOptionsItemSelected(item);
         }
+
         return true;
     }
 

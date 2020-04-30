@@ -77,35 +77,60 @@
             app:flexWrap="wrap"
             app:justifyContent="flex_start">
 
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
+            <RadioGroup android:id="@+id/type"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchType"
-                android:text="Movie"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
+                android:orientation="horizontal">
+
+                <RadioButton
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_grey"
+                    android:onClick="setSearchType"
+                    android:text="Movie"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    app:buttonCompat="@null"
+                    android:button="@null"/>
+
+                <RadioButton
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_grey"
+                    android:onClick="setSearchType"
+                    android:text="Series"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    app:buttonCompat="@null"
+                    android:button="@null" />
+
+                <RadioButton
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_grey"
+                    android:onClick="setSearchType"
+                    android:text="Episode"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    app:buttonCompat="@null"
+                    android:button="@null" />
+
+            </RadioGroup>
 
             <Button
+                android:id="@+id/clear_type"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchType"
-                android:text="Series"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
-
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchType"
-                android:text="Episode"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
+                android:drawableStart="@drawable/ic_cancel"
+                android:drawableTint="@color/colorAccent"
+                android:drawablePadding="@dimen/spacing_medium"
+                android:text="Clear"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"/>
 
         </com.google.android.flexbox.FlexboxLayout>
 
@@ -134,84 +159,72 @@
             app:flexWrap="wrap"
             app:justifyContent="flex_start">
 
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
+            <RadioGroup android:id="@+id/year"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchYear"
-                android:text="2020"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
+                android:orientation="horizontal">
+
+                <RadioButton
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_grey"
+                    android:onClick="setSearchYear"
+                    android:text="2020"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    app:buttonCompat="@null"
+                    android:button="@null"/>
+
+                <RadioButton
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_grey"
+                    android:onClick="setSearchYear"
+                    android:text="2019"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    app:buttonCompat="@null"
+                    android:button="@null"/>
+
+                <RadioButton
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_grey"
+                    android:onClick="setSearchYear"
+                    android:text="2018"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    app:buttonCompat="@null"
+                    android:button="@null"/>
+
+                <RadioButton
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/btn_rounded_grey"
+                    android:onClick="setSearchYear"
+                    android:text="2017"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    app:buttonCompat="@null"
+                    android:button="@null"/>
+
+            </RadioGroup>
 
             <Button
+                android:id="@+id/clear_year"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchYear"
-                android:text="2019"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchYear"
-                android:text="2018"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
-
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchYear"
-                android:text="2017"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
-
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchYear"
-                android:text="2016"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
-
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchYear"
-                android:text="2015"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
-
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchYear"
-                android:text="2014"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
-
-            <Button
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/btn_rounded_grey"
-                android:onClick="setSearchYear"
-                android:text="2013"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white" />
+                android:drawableStart="@drawable/ic_cancel"
+                android:drawableTint="@color/colorAccent"
+                android:drawablePadding="@dimen/spacing_medium"
+                android:text="Clear"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"/>
 
         </com.google.android.flexbox.FlexboxLayout>
 

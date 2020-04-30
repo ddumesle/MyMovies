@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,23 +15,24 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mymovies.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class SearchActivity extends AppCompatActivity {
 
+    private RadioGroup type;
+    private RadioGroup year;
+
     private String searchType;
     private String searchYear;
-
-    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private FirebaseUser currentUser = mAuth.getCurrentUser();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        type = findViewById(R.id.type);
+        year = findViewById(R.id.year);
         final EditText searchInput = findViewById(R.id.search);
 
+        // Call the search function when user clicks enter on keyboard
         searchInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -38,6 +40,24 @@ public class SearchActivity extends AppCompatActivity {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        // Clear all selections of the movie type group
+        findViewById(R.id.clear_type).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                type.clearCheck();
+                searchType = null;
+            }
+        });
+
+        // Clear all selections of the movie year group
+        findViewById(R.id.clear_year).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                year.clearCheck();
+                searchYear = null;
             }
         });
     }
@@ -49,7 +69,7 @@ public class SearchActivity extends AppCompatActivity {
      * @param v activity_search view
      */
     public void setSearchType(View v) {
-        Button button = (Button) v;
+        RadioButton button = findViewById(type.getCheckedRadioButtonId());
         searchType = button.getText().toString().toLowerCase();
     }
 
@@ -60,7 +80,7 @@ public class SearchActivity extends AppCompatActivity {
      * @param v activity_search view
      */
     public void setSearchYear(View v) {
-        Button button = (Button) v;
+        RadioButton button = findViewById(year.getCheckedRadioButtonId());
         searchYear = button.getText().toString();
     }
 
